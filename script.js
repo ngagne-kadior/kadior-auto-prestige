@@ -128,6 +128,16 @@ document.getElementById('car3dPrev').addEventListener('click', () => { rotation 
 document.getElementById('car3dNext').addEventListener('click', () => { rotation += angleStep; applyRotation(); });
 
 let dragging = false, dragged = false, startX = 0, startRotation = 0;
+let pendingRotation = null, dragRaf = null;
+
+function flushDrag(){
+  dragRaf = null;
+  if (pendingRotation === null) return;
+  rotation = pendingRotation;
+  pendingRotation = null;
+  applyRotation();
+}
+
 stage3d.addEventListener('pointerdown', (e) => {
   dragging = true; dragged = false; startX = e.clientX; startRotation = rotation;
   stage3d.classList.add('dragging');
@@ -137,8 +147,9 @@ stage3d.addEventListener('pointermove', (e) => {
   if (!dragging) return;
   const delta = e.clientX - startX;
   if (Math.abs(delta) > 4) dragged = true;
-  rotation = startRotation + delta * 0.4;
-  applyRotation();
+  const sensitivity = e.pointerType === 'touch' ? 0.75 : 0.4;
+  pendingRotation = startRotation + delta * sensitivity;
+  if (dragRaf === null) dragRaf = requestAnimationFrame(flushDrag);
 });
 ['pointerup','pointercancel','pointerleave'].forEach(evt => stage3d.addEventListener(evt, () => {
   dragging = false; stage3d.classList.remove('dragging');
