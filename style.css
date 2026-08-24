@@ -71,6 +71,7 @@ nav.wrap{ display:flex; align-items:center; justify-content:space-between; paddi
 .nav-links a:hover{ opacity:1; }
 .nav-links a:hover::after{ width:100%; }
 .nav-toggle{ display:none; background:none; border:0; color:var(--white); font-size:1.4rem; cursor:pointer; }
+.nav-cta-mobile{ display:none; }
 
 /* Hero */
 .hero{ position:relative; padding:130px 0 150px; color:#fff; overflow:hidden; background:var(--black); }
@@ -236,8 +237,11 @@ footer{ background:var(--black); color:var(--white-dim); padding:70px 0 26px; bo
 @media (max-width:760px){
   .topbar-left span:nth-child(3){ display:none; }
   .nav-links{ display:none; }
+  .nav-cta{ display:none; }
   .nav-toggle{ display:block; }
   header.nav-open .nav-links{ display:flex; flex-direction:column; gap:6px; position:absolute; top:100%; left:0; right:0; background:var(--black); padding:18px 32px; border-bottom:1px solid var(--hairline); }
+  .nav-cta-mobile{ display:block; margin-top:10px; }
+  .nav-cta-mobile .btn{ display:block; width:100%; text-align:center; }
   .search-bar{ margin-top:24px; }
   .search-grid{ grid-template-columns:1fr; }
   .car-grid{ grid-template-columns:1fr; }
