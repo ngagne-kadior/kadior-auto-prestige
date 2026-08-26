@@ -251,4 +251,51 @@ viewerStage.addEventListener('pointermove', (e) => {
 });
 viewerStage.addEventListener('pointerleave', () => { viewerTilt.style.transform = ''; });
 
+/* ---------- Trade-in estimator ---------- */
+const BRAND_BASE_VALUE = {
+  'Toyota': 12000000, 'Volkswagen': 11000000, 'Hyundai': 9000000, 'Kia': 8500000,
+  'Nissan': 9500000, 'Peugeot': 8000000, 'Renault': 7000000, 'Ford': 9000000,
+  'Honda': 10000000, 'Mercedes-Benz': 25000000, 'BMW': 24000000, 'Audi': 23000000,
+  'Porsche': 55000000, 'Autre': 10000000
+};
+
+const tradeinOverlay = document.getElementById('tradeinOverlay');
+const tradeinOpenBtn = document.getElementById('tradeinOpenBtn');
+const tradeinForm = document.getElementById('tradeinForm');
+const tradeinResult = document.getElementById('tradeinResult');
+const tradeinValue = document.getElementById('tradeinValue');
+
+function openTradein(){
+  tradeinOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeTradein(){
+  tradeinOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+tradeinOpenBtn.addEventListener('click', (e) => { e.preventDefault(); openTradein(); });
+document.getElementById('tradeinClose').addEventListener('click', closeTradein);
+tradeinOverlay.addEventListener('click', (e) => { if (e.target === tradeinOverlay) closeTradein(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && tradeinOverlay.classList.contains('open')) closeTradein(); });
+
+tradeinForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const marque = document.getElementById('t-marque').value;
+  const annee = parseInt(document.getElementById('t-annee').value, 10);
+  const km = parseInt(document.getElementById('t-km').value, 10) || 0;
+  const etatFactor = parseFloat(document.getElementById('t-etat').value);
+
+  const base = BRAND_BASE_VALUE[marque] || BRAND_BASE_VALUE['Autre'];
+  const age = Number.isFinite(annee) ? Math.max(0, new Date().getFullYear() - annee) : 5;
+  const ageFactor = Math.max(0.25, 1 - age * 0.08);
+  const kmFactor = Math.max(0.6, 1 - (km / 200000) * 0.3);
+  const estimate = base * ageFactor * kmFactor * etatFactor;
+
+  const low = Math.round(estimate * 0.9 / 100000) * 100000;
+  const high = Math.round(estimate * 1.1 / 100000) * 100000;
+  tradeinValue.textContent = `${low.toLocaleString('fr-FR')} – ${high.toLocaleString('fr-FR')} XOF`;
+  tradeinResult.hidden = false;
+  tradeinResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+
 observeReveal();

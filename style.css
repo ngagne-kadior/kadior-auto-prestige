@@ -222,6 +222,20 @@ footer{ background:var(--black); color:var(--white-dim); padding:70px 0 26px; bo
 .viewer-actions{ display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
 .viewer-tip{ margin-top:auto; padding-top:26px; font-size:.78rem; color:var(--white-dim); opacity:.8; }
 
+/* Trade-in estimator modal */
+.tradein-panel{ width:100%; max-width:520px; max-height:90vh; overflow-y:auto; background:var(--shale); border:1px solid var(--hairline-strong); padding:44px 40px; color:#fff; }
+.tradein-panel h3{ font-family:var(--font-display); font-weight:300; font-style:italic; font-size:1.7rem; margin-top:10px; }
+.tradein-intro{ color:var(--white-dim); font-size:.9rem; margin:12px 0 26px; }
+.tradein-form{ display:grid; gap:20px; }
+.tradein-form input{ width:100%; background:transparent; border:none; border-bottom:1px solid var(--hairline-strong); color:#fff; font-family:var(--font-body); font-size:.92rem; padding:8px 2px; }
+.tradein-form input::placeholder{ color:var(--white-faint); }
+.tradein-form input:focus{ outline:none; border-color:var(--red); }
+.tradein-form .btn{ margin-top:6px; border:none; }
+.tradein-result{ margin-top:28px; padding-top:28px; border-top:1px solid var(--hairline); }
+.tradein-result-label{ font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; color:var(--white-dim); }
+.tradein-result-value{ font-family:var(--font-condensed); font-size:2rem; color:var(--red); margin:10px 0 14px; }
+.tradein-result-note{ font-size:.8rem; color:var(--white-dim); margin-bottom:20px; }
+
 @media (max-width:1050px){
   .hero-grid{ max-width:100%; }
   .hero-stats{ grid-template-columns:repeat(2,auto); row-gap:24px; }

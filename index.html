@@ -175,7 +175,7 @@
           <div class="eyebrow">ESTIMEZ MA REPRISE</div>
           <h3>Connaître la vraie valeur de votre véhicule.</h3>
           <p>Obtenez une estimation juste de votre véhicule actuel en quelques minutes, sans engagement.</p>
-          <a href="#contact" class="btn btn-outline-dark">Estimer ma Reprise</a>
+          <a href="#" id="tradeinOpenBtn" class="btn btn-outline-dark">Estimer ma Reprise</a>
         </div>
       </div>
     </div>
@@ -298,6 +298,65 @@
   </div>
 </div>
 
+<div class="viewer-overlay" id="tradeinOverlay" role="dialog" aria-modal="true" aria-label="Estimation de reprise">
+  <button class="viewer-close" id="tradeinClose" aria-label="Fermer">✕</button>
+  <div class="tradein-panel">
+    <div class="eyebrow on-dark">ESTIMEZ MA REPRISE</div>
+    <h3>Estimation rapide de votre véhicule</h3>
+    <p class="tradein-intro">Renseignez les informations ci-dessous pour obtenir une estimation indicative en quelques secondes.</p>
+
+    <form id="tradeinForm" class="tradein-form">
+      <div class="search-field">
+        <label for="t-marque">Marque</label>
+        <select id="t-marque">
+          <option>Toyota</option>
+          <option>Volkswagen</option>
+          <option>Hyundai</option>
+          <option>Kia</option>
+          <option>Nissan</option>
+          <option>Peugeot</option>
+          <option>Renault</option>
+          <option>Ford</option>
+          <option>Honda</option>
+          <option>Mercedes-Benz</option>
+          <option>BMW</option>
+          <option>Audi</option>
+          <option>Porsche</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label for="t-modele">Modèle</label>
+        <input type="text" id="t-modele" placeholder="ex : Corolla, Série 3…">
+      </div>
+      <div class="search-field">
+        <label for="t-annee">Année</label>
+        <input type="number" id="t-annee" min="1990" max="2026" required placeholder="ex : 2019">
+      </div>
+      <div class="search-field">
+        <label for="t-km">Kilométrage</label>
+        <input type="number" id="t-km" min="0" step="1000" required placeholder="ex : 65000">
+      </div>
+      <div class="search-field">
+        <label for="t-etat">État général</label>
+        <select id="t-etat">
+          <option value="1.05">Excellent</option>
+          <option value="0.95" selected>Bon</option>
+          <option value="0.8">Moyen</option>
+          <option value="0.6">À rénover</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-red" id="tradeinSubmit">Calculer mon estimation</button>
+    </form>
+
+    <div class="tradein-result" id="tradeinResult" hidden>
+      <div class="tradein-result-label">Estimation indicative</div>
+      <div class="tradein-result-value" id="tradeinValue">—</div>
+      <p class="tradein-result-note">Cette estimation est basée sur les informations fournies et n'est pas contractuelle. Un conseiller Kadior Auto Élite affinera cette valeur lors d'une inspection en concession.</p>
+      <a href="#contact" class="btn btn-outline-light" id="tradeinCta">Confirmer avec un conseiller</a>
+    </div>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
