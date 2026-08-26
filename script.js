@@ -264,6 +264,16 @@ const tradeinOpenBtn = document.getElementById('tradeinOpenBtn');
 const tradeinForm = document.getElementById('tradeinForm');
 const tradeinResult = document.getElementById('tradeinResult');
 const tradeinValue = document.getElementById('tradeinValue');
+const tAnnee = document.getElementById('t-annee');
+
+const tradeinCurrentYear = new Date().getFullYear();
+for (let y = tradeinCurrentYear; y >= 1990; y--){
+  const opt = document.createElement('option');
+  opt.value = y;
+  opt.textContent = y;
+  tAnnee.appendChild(opt);
+}
+tAnnee.value = tradeinCurrentYear - 5;
 
 function openTradein(){
   tradeinOverlay.classList.add('open');
