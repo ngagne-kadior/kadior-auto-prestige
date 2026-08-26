@@ -25,10 +25,10 @@ const observeReveal = () => document.querySelectorAll('.reveal:not(.in-view)').f
 
 /* ---------- Inventory grid (data-driven) ---------- */
 const carGrid = document.getElementById('carGrid');
-function renderCars(filter){
+function renderCars(filterFn){
   carGrid.innerHTML = '';
   VEHICLES.forEach((v, i) => {
-    if (filter && filter !== 'all' && v.type !== filter) return;
+    if (filterFn && !filterFn(v)) return;
     const card = document.createElement('div');
     card.className = 'car-card reveal';
     card.innerHTML = `
@@ -46,20 +46,61 @@ function renderCars(filter){
       </div>`;
     carGrid.appendChild(card);
   });
+  if (!carGrid.children.length){
+    carGrid.innerHTML = `<p class="car-grid-empty">Aucun véhicule ne correspond à ces critères. Essayez d'élargir votre recherche.</p>`;
+  }
   observeReveal();
   document.querySelectorAll('.car-3d-btn').forEach(btn => {
     btn.addEventListener('click', (e) => { e.preventDefault(); openViewer(parseInt(btn.dataset.index, 10)); });
   });
   attachTilt();
 }
-renderCars('all');
+renderCars(null);
 
 const tabs = document.querySelectorAll('.filter-tabs button');
 tabs.forEach(t => t.addEventListener('click', () => {
   tabs.forEach(x => x.classList.remove('active'));
   t.classList.add('active');
-  renderCars(t.dataset.filter);
+  const type = t.dataset.filter;
+  renderCars(type === 'all' ? null : (v => v.type === type));
 }));
+
+/* ---------- Hero search form ---------- */
+const sMarque = document.getElementById('s-marque');
+const sModele = document.getElementById('s-modele');
+const sType = document.getElementById('s-type');
+const sPrix = document.getElementById('s-prix');
+const searchBtn = document.getElementById('searchBtn');
+
+function refreshModelOptions(){
+  const marque = sMarque.value;
+  const models = [...new Set(
+    VEHICLES.filter(v => marque === 'Toutes les marques' || v.brand === marque).map(v => v.model)
+  )];
+  sModele.innerHTML = '<option>Tous les modèles</option>' + models.map(m => `<option>${m}</option>`).join('');
+}
+sMarque.addEventListener('change', refreshModelOptions);
+refreshModelOptions();
+
+function parsePrice(str){ return parseInt(String(str).replace(/[^\d]/g, ''), 10); }
+
+searchBtn.addEventListener('click', () => {
+  const marque = sMarque.value;
+  const modele = sModele.value;
+  const type = sType.value;
+  const maxPrice = sPrix.value === 'Sans limite' ? null : parsePrice(sPrix.value);
+
+  renderCars(v => {
+    if (marque !== 'Toutes les marques' && v.brand !== marque) return false;
+    if (modele !== 'Tous les modèles' && v.model !== modele) return false;
+    if (type !== 'Tous les types' && v.typeLabel !== type) return false;
+    if (maxPrice !== null && parsePrice(v.price) > maxPrice) return false;
+    return true;
+  });
+
+  tabs.forEach(x => x.classList.remove('active'));
+  document.getElementById('inventaire').scrollIntoView({ behavior: 'smooth' });
+});
 
 /* ---------- Card tilt-on-hover ---------- */
 function attachTilt(){

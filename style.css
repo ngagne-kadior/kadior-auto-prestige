@@ -125,6 +125,7 @@ nav.wrap{ display:flex; align-items:center; justify-content:space-between; paddi
 .filter-tabs button.active::after{ content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--red); }
 
 .car-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+.car-grid-empty{ grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--white-dim); font-size:.98rem; }
 .car-card{ background:var(--black); border:1px solid var(--hairline); border-radius:0; overflow:hidden; transition:border-color .35s ease, transform .1s linear; will-change:transform; }
 .car-card:hover{ border-color:var(--hairline-strong); }
 .car-media{ position:relative; aspect-ratio:4/3; background:var(--shale); overflow:hidden; }
